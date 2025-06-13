@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "loganalyzer.fullname" . }}
+spec:
+  replicas: 1
+  selector: { matchLabels: { app: {{ include "loganalyzer.name" . }} } }
+  template:
+    metadata: { labels: { app: {{ include "loganalyzer.name" . }} } }
+    spec:
+      containers:
+      - name: controller
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        env:
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.secrets.openai }}
+              key: apiKey

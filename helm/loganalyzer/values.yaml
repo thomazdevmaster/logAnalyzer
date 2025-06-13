@@ -1,0 +1,6 @@
+image:
+  repository: seu-registro/loganalyzer-operator
+  tag: latest
+
+secrets:
+  openai: openai-secret
