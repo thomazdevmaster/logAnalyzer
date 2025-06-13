@@ -25,6 +25,11 @@ spec:
                 podSelector:
                   type: object
                   additionalProperties: true
+                llmProvider:
+                  type: string
+                  enum:
+                    - openai
+                    - gemini
                 llmModel:
                   type: string
                 prompt:

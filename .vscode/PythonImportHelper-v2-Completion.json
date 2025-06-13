@@ -18,11 +18,20 @@
         "documentation": {}
     },
     {
+        "label": "google.generativeai",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "google.generativeai",
+        "description": "google.generativeai",
+        "detail": "google.generativeai",
+        "documentation": {}
+    },
+    {
         "label": "analyze_logs",
         "kind": 2,
         "importPath": "controller.loganalyzer_controller",
         "description": "controller.loganalyzer_controller",
-        "peekOfCode": "def analyze_logs(spec, name, namespace, patch, **kwargs):\n    ns = spec.get('namespace', namespace)\n    sel = spec.get('podSelector', {})\n    prompt = spec.get('prompt', 'Analise logs:')\n    model = spec.get('llmModel', 'gpt-3.5-turbo')\n    k8s = kubernetes.client.CoreV1Api()\n    sel_str = \",\".join(f\"{k}={v}\" for k, v in sel.items())\n    pods = k8s.list_namespaced_pod(ns, label_selector=sel_str).items\n    collated = \"\"\n    for p in pods:",
+        "peekOfCode": "def analyze_logs(spec, name, namespace, patch, **kwargs):\n    ns = spec.get('namespace', namespace)\n    sel = spec.get('podSelector', {})\n    prompt = spec.get('prompt', 'Analise logs:')\n    provider = spec.get('llmProvider', 'openai').lower()\n    model_name = spec.get('llmModel', 'gpt-3.5-turbo')\n    # Coleta de logs\n    k8s = kubernetes.client.CoreV1Api()\n    sel_str = \",\".join(f\"{k}={v}\" for k, v in sel.items())\n    pods = k8s.list_namespaced_pod(ns, label_selector=sel_str).items",
         "detail": "controller.loganalyzer_controller",
         "documentation": {}
     },
@@ -31,7 +40,7 @@
         "kind": 5,
         "importPath": "controller.loganalyzer_controller",
         "description": "controller.loganalyzer_controller",
-        "peekOfCode": "openai.api_key = os.getenv(\"OPENAI_API_KEY\")\n@kopf.on.create('mlops.dev', 'v1alpha1', 'loganalyzers')\n@kopf.on.update('mlops.dev', 'v1alpha1', 'loganalyzers')\ndef analyze_logs(spec, name, namespace, patch, **kwargs):\n    ns = spec.get('namespace', namespace)\n    sel = spec.get('podSelector', {})\n    prompt = spec.get('prompt', 'Analise logs:')\n    model = spec.get('llmModel', 'gpt-3.5-turbo')\n    k8s = kubernetes.client.CoreV1Api()\n    sel_str = \",\".join(f\"{k}={v}\" for k, v in sel.items())",
+        "peekOfCode": "openai.api_key = os.getenv(\"OPENAI_API_KEY\")\ngenai.configure(api_key=os.getenv(\"GOOGLE_API_KEY\"))\n@kopf.on.create('mlops.dev', 'v1alpha1', 'loganalyzers')\n@kopf.on.update('mlops.dev', 'v1alpha1', 'loganalyzers')\ndef analyze_logs(spec, name, namespace, patch, **kwargs):\n    ns = spec.get('namespace', namespace)\n    sel = spec.get('podSelector', {})\n    prompt = spec.get('prompt', 'Analise logs:')\n    provider = spec.get('llmProvider', 'openai').lower()\n    model_name = spec.get('llmModel', 'gpt-3.5-turbo')",
         "detail": "controller.loganalyzer_controller",
         "documentation": {}
     }

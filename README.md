@@ -17,7 +17,7 @@ Um operador Kubernetes que usa LLMs (como GPT-3.5/GPT-4) para analisar logs de p
 ### 1. Clone o repositório
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/thomazdevmaster/logAnalyzer.git
 cd loganalyzer-operator
 ```
 
@@ -26,7 +26,8 @@ cd loganalyzer-operator
 Crie um `Secret` com sua chave:
 
 ```bash
-kubectl create secret generic openai-secret --from-literal=apiKey=$OPENAI_API_KEY -n default
+kubectl create secret generic openai-secret --from-literal=apiKey=$OPENAI_API_KEY
+kubectl create secret generic gemini-secret --from-literal=apiKey=$GOOGLE_API_KEY
 ```
 
 ### 3. Build da imagem Docker
